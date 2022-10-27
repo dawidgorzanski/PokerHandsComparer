@@ -33,7 +33,7 @@ namespace PokerHandsComparer.Tests
         }
 
         [TestMethod]
-        public void AddCard_CannotAddMoreThan8Cards()
+        public void AddCard_CannotAddMoreThan7Cards()
         {
             var hand = new Hand();
             hand.AddCard(Card.Clubs.Ace);
@@ -47,7 +47,7 @@ namespace PokerHandsComparer.Tests
             hand.AddCard(Card.Clubs.Six);
             hand.AddCard(Card.Clubs.Five);
             hand.AddCard(Card.Clubs.Four);
-            Assert.AreEqual(8, hand.CardsInHand.Count);
+            Assert.AreEqual(7, hand.CardsInHand.Count);
         }
 
         [TestMethod]
@@ -78,7 +78,7 @@ namespace PokerHandsComparer.Tests
         }
 
         [TestMethod]
-        public void AddCards_CannotAddMoreThan8Cards()
+        public void AddCards_CannotAddMoreThan7Cards()
         {
             var hand = new Hand();
             hand.AddCards(
@@ -91,7 +91,7 @@ namespace PokerHandsComparer.Tests
                 Card.Clubs.Eight,
                 Card.Clubs.Seven,
                 Card.Clubs.Six);
-            Assert.AreEqual(8, hand.CardsInHand.Count);
+            Assert.AreEqual(7, hand.CardsInHand.Count);
         }
 
         [TestMethod]

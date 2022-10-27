@@ -3,7 +3,7 @@
     internal sealed class EvaluationResult
     {
         public bool PokerHandFound { get; private set; }
-        public List<Card> UsedCards { get; private set; } = new List<Card>();
+        public IList<Card> UsedCards { get; private set; } = new List<Card>();
 
         private EvaluationResult()
         {

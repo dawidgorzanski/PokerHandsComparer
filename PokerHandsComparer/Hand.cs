@@ -2,6 +2,7 @@
 {
     public class Hand
     {
+        public const int MaxCardsInHand = 7;
         protected HashSet<Card> Cards { get; }
 
         public Hand(params Card[] cards)
@@ -14,7 +15,7 @@
 
         public virtual void AddCard(Card card)
         {
-            if (card == null || this.Cards.Count == 8)
+            if (card == null || this.Cards.Count == MaxCardsInHand)
             {
                 return;
             }
@@ -32,7 +33,7 @@
             foreach (var card in cards)
             {
                 this.Cards.Add(card);
-                if (this.Cards.Count == 8)
+                if (this.Cards.Count == MaxCardsInHand)
                 {
                     return;
                 }

@@ -4,13 +4,13 @@ using PokerHandsComparer.Evaluators;
 namespace PokerHandsComparer.Tests.Evaluators
 {
     [TestClass]
-    public class FourOfAKindEvaluatorTests
+    public class FlushEvaluatorTests
     {
         [DataTestMethod]
         [DynamicData(nameof(GetEvaluationTestData), DynamicDataSourceType.Method)]
         public void Evaluate_ReturnsCorrectResult(Hand hand, bool pokerHandFound, Card[]? expectedCards)
         {
-            var evaluator = new FourOfAKindEvaluator();
+            var evaluator = new FlushEvaluator();
             var result = evaluator.Evaluate(hand);
             Assert.AreEqual(pokerHandFound, result.PokerHandFound);
             if (pokerHandFound)
@@ -25,7 +25,7 @@ namespace PokerHandsComparer.Tests.Evaluators
             {
                 null!,
                 false,
-                null!,
+                null!
             };
             yield return new object[]
             {
@@ -37,31 +37,43 @@ namespace PokerHandsComparer.Tests.Evaluators
             {
                 new Hand(Card.Spades.Ace),
                 false,
+                null!
+            };
+            yield return new object[]
+            {
+                new Hand(Card.Spades.Ace, Card.Spades.King, Card.Spades.Five, Card.Clubs.Four, Card.Clubs.Seven),
+                false,
                 null!,
             };
             yield return new object[]
             {
                 new Hand(Card.Spades.Ace, Card.Spades.King, Card.Spades.Five, Card.Spades.Four, Card.Spades.Seven),
-                false,
-                null!,
-            };
-            yield return new object[]
-            {
-                new Hand(Card.Spades.Ace, Card.Diamonds.Ace, Card.Clubs.Ace, Card.Hearts.Ace, Card.Spades.Seven),
                 true,
-                new [] { Card.Spades.Ace, Card.Diamonds.Ace, Card.Clubs.Ace, Card.Hearts.Ace, Card.Spades.Seven }
+                new [] { Card.Spades.Ace, Card.Spades.King, Card.Spades.Seven, Card.Spades.Five, Card.Spades.Four },
             };
             yield return new object[]
             {
-                new Hand(Card.Spades.Seven, Card.Spades.Ace, Card.Diamonds.Ace, Card.Clubs.Ace, Card.Hearts.Ace),
-                true,
-                new [] { Card.Spades.Ace, Card.Diamonds.Ace, Card.Clubs.Ace, Card.Hearts.Ace, Card.Spades.Seven }
-            };
-            yield return new object[]
-            {
-                new Hand(Card.Spades.Seven, Card.Spades.Eight, Card.Diamonds.Ace, Card.Clubs.Ace, Card.Hearts.Ace),
+                new Hand(Card.Spades.Ace, Card.Clubs.King, Card.Hearts.Five, Card.Diamonds.Four, Card.Spades.Seven),
                 false,
-                null!,
+                null!
+            };
+            yield return new object[]
+            {
+                new Hand(Card.Spades.Ace, Card.Spades.King, Card.Spades.Queen, Card.Spades.Jack, Card.Spades.Ten),
+                true,
+                new [] { Card.Spades.Ace, Card.Spades.King, Card.Spades.Queen, Card.Spades.Jack, Card.Spades.Ten },
+            };
+            yield return new object[]
+            {
+                new Hand(Card.Spades.Ten, Card.Spades.Jack, Card.Spades.Queen, Card.Spades.King, Card.Spades.Ace),
+                true,
+                new [] { Card.Spades.Ace, Card.Spades.King, Card.Spades.Queen, Card.Spades.Jack, Card.Spades.Ten },
+            };
+            yield return new object[]
+            {
+                new Hand(Card.Spades.Ten, Card.Hearts.Ace, Card.Diamonds.Ten, Card.Spades.Jack, Card.Spades.Queen, Card.Spades.King, Card.Spades.Ace),
+                true,
+                new [] { Card.Spades.Ace, Card.Spades.King, Card.Spades.Queen, Card.Spades.Jack, Card.Spades.Ten },
             };
         }
     }

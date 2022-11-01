@@ -4,13 +4,13 @@ using PokerHandsComparer.Evaluators;
 namespace PokerHandsComparer.Tests.Evaluators
 {
     [TestClass]
-    public class StraightFlushEvaluatorTests
+    public class StraightEvaluatorTests
     {
         [DataTestMethod]
         [DynamicData(nameof(GetEvaluationTestData), DynamicDataSourceType.Method)]
         public void Evaluate_ReturnsCorrectResult(Hand hand, bool pokerHandFound, Card[]? expectedCards)
         {
-            var evaluator = new StraightFlushEvaluator();
+            var evaluator = new StraightEvaluator();
             var result = evaluator.Evaluate(hand);
             Assert.AreEqual(pokerHandFound, result.PokerHandFound);
             if (pokerHandFound)
@@ -86,6 +86,24 @@ namespace PokerHandsComparer.Tests.Evaluators
                 new Hand(Card.Spades.Ace, Card.Spades.Two, Card.Spades.Three, Card.Spades.Four, Card.Spades.Five),
                 true,
                 new [] { Card.Spades.Five, Card.Spades.Four, Card.Spades.Three, Card.Spades.Two, Card.Spades.Ace },
+            };
+            yield return new object[]
+            {
+                new Hand(Card.Spades.Ace, Card.Clubs.Two, Card.Diamonds.Three, Card.Hearts.Four, Card.Clubs.Five),
+                true,
+                new [] { Card.Clubs.Five, Card.Hearts.Four, Card.Diamonds.Three, Card.Clubs.Two, Card.Spades.Ace },
+            };
+            yield return new object[]
+            {
+                new Hand(Card.Clubs.Five, Card.Hearts.Four, Card.Diamonds.Three, Card.Clubs.Two, Card.Spades.Ace),
+                true,
+                new [] { Card.Clubs.Five, Card.Hearts.Four, Card.Diamonds.Three, Card.Clubs.Two, Card.Spades.Ace },
+            };
+            yield return new object[]
+            {
+                new Hand(Card.Clubs.Six, Card.Clubs.Five, Card.Hearts.Four, Card.Diamonds.Three, Card.Clubs.Two, Card.Spades.Ace),
+                true,
+                new [] { Card.Clubs.Six, Card.Clubs.Five, Card.Hearts.Four, Card.Diamonds.Three, Card.Clubs.Two },
             };
         }
     }

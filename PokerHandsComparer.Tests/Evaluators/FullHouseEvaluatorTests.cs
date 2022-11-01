@@ -15,9 +15,7 @@ namespace PokerHandsComparer.Tests.Evaluators
             Assert.AreEqual(pokerHandFound, result.PokerHandFound);
             if (pokerHandFound)
             {
-                CollectionAssert.AreEqual(
-                    expectedCards?.OrderBy(c => c.Rank).ThenBy(c => c.Suit).ToArray(),
-                    result.UsedCards.OrderBy(c => c.Rank).ThenBy(c => c.Suit).ToArray());
+                CollectionAssert.AreEqual(expectedCards, result.UsedCards.ToArray());
             }
         }
 
@@ -51,25 +49,25 @@ namespace PokerHandsComparer.Tests.Evaluators
             {
                 new Hand(Card.Spades.Ace, Card.Diamonds.Ace, Card.Clubs.Ace, Card.Hearts.Seven, Card.Spades.Seven),
                 true,
-                new [] { Card.Spades.Ace, Card.Diamonds.Ace, Card.Clubs.Ace, Card.Hearts.Seven, Card.Spades.Seven },
+                new [] { Card.Clubs.Ace, Card.Diamonds.Ace, Card.Spades.Ace, Card.Hearts.Seven, Card.Spades.Seven },
             };
             yield return new object[]
             {
                 new Hand(Card.Spades.Seven, Card.Diamonds.Seven, Card.Clubs.Seven, Card.Hearts.Ace, Card.Spades.Ace),
                 true,
-                new [] { Card.Spades.Seven, Card.Diamonds.Seven, Card.Clubs.Seven, Card.Hearts.Ace, Card.Spades.Ace },
+                new [] { Card.Clubs.Seven, Card.Diamonds.Seven, Card.Spades.Seven, Card.Hearts.Ace, Card.Spades.Ace },
             };
             yield return new object[]
             {
                 new Hand(Card.Spades.Seven, Card.Diamonds.Seven, Card.Clubs.Seven, Card.Hearts.Ace, Card.Spades.Ace, Card.Clubs.Ace),
                 true,
-                new [] { Card.Hearts.Ace, Card.Spades.Ace, Card.Clubs.Ace, Card.Clubs.Seven, Card.Diamonds.Seven },
+                new [] { Card.Clubs.Ace, Card.Hearts.Ace, Card.Spades.Ace, Card.Clubs.Seven, Card.Diamonds.Seven },
             };
             yield return new object[]
             {
                 new Hand(Card.Spades.Seven, Card.Diamonds.Seven, Card.Clubs.Six, Card.Diamonds.Six, Card.Hearts.Ace, Card.Spades.Ace, Card.Clubs.Ace),
                 true,
-                new [] { Card.Hearts.Ace, Card.Spades.Ace, Card.Clubs.Ace, Card.Diamonds.Seven, Card.Spades.Seven },
+                new [] { Card.Clubs.Ace, Card.Hearts.Ace, Card.Spades.Ace, Card.Diamonds.Seven, Card.Spades.Seven },
             };
         }
     }

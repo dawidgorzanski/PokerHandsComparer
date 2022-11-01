@@ -7,18 +7,61 @@
             return hand == null || hand.CardsInHand.Count < 5;
         }
 
-        protected bool CardsAreSequential(IEnumerable<Card> cards)
+        protected bool FiveCardsAreSequential(IEnumerable<Card> cards, out IEnumerable<Card> cardsInSequence)
         {
-            var ranksWhenAceIsAce = cards.Select(c => (int)c.Rank).OrderBy(x => x).ToList();
-            var aceTreatedAsAce = ranksWhenAceIsAce.Zip(ranksWhenAceIsAce.Skip(1), (a, b) => (a + 1) == b).All(x => x);
-            if (aceTreatedAsAce)
+            const int requiredNumberOfCardsInSequence = 5;
+            cardsInSequence = new List<Card>();
+
+            var cardsOrderedByRankWhenAceIsAce = cards.OrderByDescending(c => (int)c.Rank).ToList();
+            var previousCard = cardsOrderedByRankWhenAceIsAce.First();
+            var currentSequence = new List<Card> { previousCard };
+            foreach (var card in cardsOrderedByRankWhenAceIsAce.Skip(1))
             {
-                return true;
+                if ((int)previousCard.Rank - 1 == (int)card.Rank)
+                {
+                    currentSequence.Add(card);
+                }
+                else
+                {
+                    currentSequence.Clear();
+                    currentSequence.Add(card);
+                }
+
+                if (currentSequence.Count == requiredNumberOfCardsInSequence)
+                {
+                    cardsInSequence = currentSequence;
+                    return true;
+                }
+
+                previousCard = card;
             }
 
-            var ranksWhenAceIsOne = cards.Select(c => c.Rank == CardRank.Ace ? 1 : (int)c.Rank).OrderBy(x => x).ToList();
-            var aceTreatedAsOne = ranksWhenAceIsOne.Zip(ranksWhenAceIsOne.Skip(1), (a, b) => (a + 1) == b).All(x => x);
-            return aceTreatedAsOne;
+            var cardsOrderedByRankWhenAceIsOne = cards.OrderByDescending(c => c.Rank == CardRank.Ace ? 1 : (int)c.Rank).ToList();
+            previousCard = cardsOrderedByRankWhenAceIsOne.First();
+            currentSequence = new List<Card> { previousCard };
+            foreach (var card in cardsOrderedByRankWhenAceIsOne.Skip(1))
+            {
+                var rank = card.Rank == CardRank.Ace ? 1 : (int)card.Rank;
+                if ((int)previousCard.Rank - 1 == rank)
+                {
+                    currentSequence.Add(card);
+                }
+                else
+                {
+                    currentSequence.Clear();
+                    currentSequence.Add(card);
+                }
+
+                if (currentSequence.Count == requiredNumberOfCardsInSequence)
+                {
+                    cardsInSequence = currentSequence;
+                    return true;
+                }
+
+                previousCard = card;
+            }
+
+            return false;
         }
     }
 }

@@ -14,12 +14,12 @@
             return new EvaluationResult();
         }
 
-        public static EvaluationResult Successful(List<Card> usedCards)
+        public static EvaluationResult Successful(IEnumerable<Card> usedCards)
         {
             return new EvaluationResult
             {
                 PokerHandFound = true,
-                UsedCards = usedCards
+                UsedCards = usedCards.ToList(),
             };
         }
     }
